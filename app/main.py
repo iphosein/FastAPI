@@ -9,9 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "https://www.google.com",
-    "https://www.youtube.com",
-    # یا "*" برای اجازه به همه
+    '*'
 ]
 
 app.add_middleware(
@@ -27,3 +25,7 @@ app.include_router(post.router)
 app.include_router(auth.router)
 app.include_router(vote.router)
 
+
+@app.get("/")
+def root():
+    return {"message": "Hello World pushing out to ubuntu"}

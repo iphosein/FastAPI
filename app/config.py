@@ -15,11 +15,11 @@ class Settings(BaseSettings):
     access_token_expire_minutes: 30
 
     # model_config = SettingsConfigDict(env_file="../.env")
-    model_config = SettingsConfigDict(
+    """model_config = SettingsConfigDict(
         env_file=str(BASE_DIR / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
-    )
+    )"""
 settings = Settings()
 
 

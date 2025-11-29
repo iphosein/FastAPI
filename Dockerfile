@@ -1,22 +1,24 @@
-# Dockerfile — کپی کن در ریشه
-FROM python:3.11-slim AS builder
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
-
+# Dockerfile — نسخه ۱۰۰٪ کار شده روی Render.com
 FROM python:3.11-slim
+
+# نصب build dependencies برای psycopg2 و بقیه
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# کپی پکیج‌ها از مرحله قبل
-COPY --from=builder /root/.local /root/.local
+# اول requirements نصب کن (بدون --user)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# بقیه فایل‌ها رو کپی کن
 COPY . .
 
-# غیر روت یوزر (امنیت بالا)
+# یوزر غیرروت برای امنیت
 RUN useradd -m appuser
 USER appuser
-
-ENV PATH=/root/.local/bin:$PATH
-ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8000
 

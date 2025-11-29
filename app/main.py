@@ -26,6 +26,6 @@ app.include_router(auth.router)
 app.include_router(vote.router)
 
 
-@app.get("/")
+@app.get("/health")
 def root():
     return {"message": "Hello World pushing out to ubuntu"}
